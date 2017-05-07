@@ -10,8 +10,8 @@ class StatusRequest(HTTPRequest):
     def __init__(self, device_id, url):
         """Инициализация запроса отправки статуса устройства.
 
-        :param ip_address: IP-адрес
-        :type ip_address: str
+        :param device_id: ID устройства
+        :type device_id: str
 
         :param url: URL, на который отправить запрос
         :type url: str
