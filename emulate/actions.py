@@ -1,12 +1,11 @@
 from tornado.ioloop import PeriodicCallback
 from tornado.log import app_log
 
+from emulate.base import AbstractSender
 
-class StatusSender(PeriodicCallback):
+
+class StatusSender(AbstractSender):
     """Объект отправки статуса устройства."""
-
-    # Каждые 2 секунды
-    callback_time = 2000
 
     def __init__(self, client, request_cls, ip_address, port):
         """Инициализация отправки статуса устройства.
@@ -23,28 +22,46 @@ class StatusSender(PeriodicCallback):
         :param port: Порт
         :type port: int
         """
-        super(StatusSender, self).__init__(self.send, self.callback_time)
         self.client = client
         self.request_cls = request_cls
         self.ip_address = ip_address
         self.port = port
 
-    def send(self, request):
+    def send(self):
         """Отправляет запрос."""
+        request = self.get_request()
         app_log.info('Send request (body = {})'.format(request.body))
         self.client.fetch(request)
 
-    def get_request(self):
-        """Возвращает запрос о состоянии."""
-        return self.request_cls(self.ip_address, self.port, self.device_id)
+    def get_url(self):
+        """Возвращает url, на который отправится запрос."""
+        return 'http://{ip_address}:{port}/status/'.format(
+            ip_address=self.ip_address, port=self.port)
 
-    def _run(self):
-        if not self._running:
-            return
-        try:
-            request = self.get_request()
-            return self.callback(request)
-        except Exception:
-            self.io_loop.handle_callback_exception(self.callback)
-        finally:
-            self._schedule_next()
+    def get_request(self):
+        """Возвращает объект запроса."""
+        return self.request_cls(self.device_id, self.get_url())
+
+    def start(self):
+        """Начинает отправку статуса."""
+        self.send()
+
+    def stop(self):
+        """Завершение отправки статуса."""
+        pass
+
+
+class PeriodicStatusSender(StatusSender):
+    """Объект периодической отправки статуса устройства."""
+
+    # Каждые 2 секунды
+    callback_time = 2000
+
+    def start(self):
+        """Начинает отправку статуса."""
+        self.periodic_sender = PeriodicCallback(self.send, self.callback_time)
+        self.periodic_sender.start()
+
+    def stop(self):
+        """Завершение отправки статуса."""
+        self.periodic_sender.stop()

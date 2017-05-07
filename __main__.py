@@ -8,7 +8,7 @@ from tornado.log import enable_pretty_logging, app_log
 from tornado.options import options
 from tornado.web import Application
 
-from emulate.actions import StatusSender
+from emulate.actions import PeriodicStatusSender
 from emulate.client import Device
 from emulate.request import StatusRequest
 from handlers import StatusHandler
@@ -58,7 +58,7 @@ def start():
         #     # server_map['DEFAULT']['PORT'],
         #     device_id,
         # )
-        status_sender = StatusSender(
+        status_sender = PeriodicStatusSender(
             AsyncHTTPClient(), StatusRequest, args.ip[index], args.port[index])
         device = Device(device_id, status_sender)
         device.start()
