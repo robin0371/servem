@@ -27,9 +27,11 @@ class Device(AbstractDevice):
         self._device_id = value
 
     def start(self):
+        """Включает устройство."""
         app_log.info('Start device ID = {}'.format(self.device_id))
         self.status_sender.start()
 
     def stop(self):
+        """Выключает устройство."""
         app_log.info('Stopped device ID = {}'.format(self.device_id))
         self.status_sender.stop()
