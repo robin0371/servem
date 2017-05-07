@@ -1,8 +1,8 @@
 from abc import ABCMeta, abstractmethod
 
 
-class StartStopInterface(object):
-    """Интерфейс старта и остановки."""
+class StartInterface(object):
+    """Интерфейс старта."""
 
     __metaclass__ = ABCMeta
 
@@ -10,12 +10,18 @@ class StartStopInterface(object):
     def start(self):
         """Запуск."""
 
+
+class StopInterface(object):
+    """Интерфейс остановки."""
+
+    __metaclass__ = ABCMeta
+
     @abstractmethod
     def stop(self):
         """Остановка."""
 
 
-class AbstractDevice(StartStopInterface):
+class AbstractDevice(StartInterface, StopInterface):
     """Абстрактный объект устройства."""
 
     __metaclass__ = ABCMeta
