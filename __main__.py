@@ -32,7 +32,7 @@ arg_parser.add_argument(
 
 
 def start():
-    """Запускает эмулятора программно-аппаратной системы."""
+    """Запускает эмулятор программно-аппаратной системы."""
     args = arg_parser.parse_args()
     server_map = settings.as_dict()
 
@@ -45,20 +45,21 @@ def start():
 
     # proxy_server = HTTPProxyServer(application)
 
+    # Запускаем серверы
     for server_port in args.server_port:
-        # Запускаем сервер
         http_server = HTTPServer(application)
         http_server.listen(server_port)
 
     # Запускаем устройства(клиенты)
     for index, device_id in enumerate(args.device_id):
-        status_request = StatusRequest(
-            args.ip[index], args.port[index],
-            # server_map['DEFAULT']['SERVER'],
-            # server_map['DEFAULT']['PORT'],
-            device_id,
-        )
-        status_sender = StatusSender(AsyncHTTPClient(), status_request)
+        # status_request = StatusRequest(
+        #     args.ip[index], args.port[index],
+        #     # server_map['DEFAULT']['SERVER'],
+        #     # server_map['DEFAULT']['PORT'],
+        #     device_id,
+        # )
+        status_sender = StatusSender(
+            AsyncHTTPClient(), StatusRequest, args.ip[index], args.port[index])
         device = Device(device_id, status_sender)
         device.start()
 
