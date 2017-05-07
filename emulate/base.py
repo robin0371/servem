@@ -48,9 +48,9 @@ class AbstractSender(StartInterface, StopInterface):
 
     @abstractmethod
     def get_request(self):
-        """Отправляющийся запрос."""
+        """Возвращает объект, отправляющегося запроса."""
 
     @property
     @abstractmethod
     def get_url(self):
-        """URL, на который происходит отправление."""
+        """Возвращает URL, на который происходит отправление."""
