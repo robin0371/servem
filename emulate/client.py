@@ -17,6 +17,7 @@ class Device(AbstractDevice):
         """
         self.device_id = device_id
         self.status_sender = status_sender
+        self.status_sender.device_id = device_id
 
     @property
     def device_id(self):
