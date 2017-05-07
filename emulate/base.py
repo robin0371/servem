@@ -1,7 +1,21 @@
 from abc import ABCMeta, abstractmethod
 
 
-class AbstractDevice(object):
+class StartStopInterface(object):
+    """Интерфейс старта и остановки."""
+
+    __metaclass__ = ABCMeta
+
+    @abstractmethod
+    def start(self):
+        """Запуск."""
+
+    @abstractmethod
+    def stop(self):
+        """Остановка."""
+
+
+class AbstractDevice(StartStopInterface):
     """Абстрактный объект устройства."""
 
     __metaclass__ = ABCMeta
@@ -15,11 +29,3 @@ class AbstractDevice(object):
     @abstractmethod
     def device_id(self, value):
         """Установка значения ID устройства."""
-
-    @abstractmethod
-    def start(self):
-        """Включает устройство."""
-
-    @abstractmethod
-    def stop(self):
-        """Останавливает устройство."""
