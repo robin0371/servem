@@ -7,17 +7,14 @@ from tornado.httpclient import HTTPRequest
 class StatusRequest(HTTPRequest):
     """Запрос статуса устройства."""
 
-    def __init__(self, ip_address, port, device_id):
+    def __init__(self, device_id, url):
         """Инициализация запроса отправки статуса устройства.
 
         :param ip_address: IP-адрес
         :type ip_address: str
 
-        :param port: Порт
-        :type port: int
-
-        :param device_id: ID устройства
-        :type device_id: str
+        :param url: URL, на который отправить запрос
+        :type url: str
         """
         body = json.dumps({
             'device_id': device_id,
@@ -26,8 +23,7 @@ class StatusRequest(HTTPRequest):
             'data': {}
         })
         super(StatusRequest, self).__init__(
-            url='http://{ip_address}:{port}/status/'.format(
-                ip_address=ip_address, port=port),
+            url=url,
             method='POST',
             headers={'Content-Type': 'application/json'},
             body=str(body)
