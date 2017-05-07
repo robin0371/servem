@@ -35,3 +35,22 @@ class AbstractDevice(StartInterface, StopInterface):
     @abstractmethod
     def device_id(self, value):
         """Установка значения ID устройства."""
+
+
+class AbstractSender(StartInterface, StopInterface):
+    """Абстрактный объект отправителя."""
+
+    __metaclass__ = ABCMeta
+
+    @abstractmethod
+    def send(self):
+        """Отправка."""
+
+    @abstractmethod
+    def get_request(self):
+        """Отправляющийся запрос."""
+
+    @property
+    @abstractmethod
+    def get_url(self):
+        """URL, на который происходит отправление."""
