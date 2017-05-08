@@ -44,7 +44,7 @@ class StatusHandler(RequestHandler):
 
 
 class ProxyStatusHandler(RequestHandler):
-    """Обработчик запроса на proxy-сервер."""
+    """Обработчик получения статуса устройства proxy-сервером."""
 
     def post(self):
         conf = settings.as_dict()
