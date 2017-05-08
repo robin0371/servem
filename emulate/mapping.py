@@ -1,6 +1,6 @@
 
 
-class RedirectMapper():
+class RedirectMapper(object):
     """Маппер перенаправлений запросов."""
 
     def __init__(self, schema):
