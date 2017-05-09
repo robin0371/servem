@@ -33,7 +33,7 @@ arg_parser.add_argument(
     '--production_like_port', '-plp', type=int,
     help='Порт сервера для регрессионного тестирования')
 arg_parser.add_argument(
-    '--production_port', '-pp', type=int,  help='Порты сервера для продакшена')
+    '--production_port', '-pp', type=int,  help='Порт продакшен-сервера')
 
 
 def start():
