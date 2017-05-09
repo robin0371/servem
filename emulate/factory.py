@@ -28,12 +28,13 @@ class AppInstanceFactory(AbstractAppInstanceFactory):
         self.port = port
 
     def set_app(self):
-        """Инициализирует."""
+        """Инициализирует приложение."""
         self.app = Application([
             (r'/status/', StatusHandler)
         ])
 
     def set_server(self):
+        """Инициализирует сервер."""
         self.server = HTTPServer(self.app)
 
     def start(self):
@@ -72,12 +73,13 @@ class ProxyInstance(AppInstanceFactory):
     name = 'proxy'
 
     def set_app(self):
-        """Инициализирует."""
+        """Инициализирует приложение."""
         self.app = Application([
             (r'/status/', ProxyStatusHandler)
         ])
 
     def set_server(self):
+        """Инициализирует сервер."""
         self.server = HTTPServer(self.app, xheaders=True)
 
 
@@ -108,6 +110,7 @@ class DeviceFactory(AbstractDeviceFactory):
         self.port = port
 
     def create(self):
+        """Создает и возвращает устройство."""
         client = self.client_cls()
         sender = self.sender_cls(
             client, self.request_cls, self.host, self.port)

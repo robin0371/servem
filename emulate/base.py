@@ -63,11 +63,11 @@ class AbstractAppInstanceFactory(object):
 
     @abstractmethod
     def set_app(self):
-        """Инстанцирует приложение."""
+        """Инициализирует приложение."""
 
     @abstractmethod
     def set_server(self):
-        """Инстанцирует сервер."""
+        """Инициализирует сервер."""
 
     @abstractmethod
     def start(self):
