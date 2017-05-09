@@ -54,3 +54,21 @@ class AbstractSender(StartInterface, StopInterface):
     @abstractmethod
     def get_url(self):
         """Возвращает URL, на который происходит отправление."""
+
+
+class AbstractAppInstanceFactory(object):
+    """Абстрактная фабрика инстансов приложений."""
+
+    __metaclass__ = ABCMeta
+
+    @abstractmethod
+    def set_app(self):
+        """Инстанцирует приложение."""
+
+    @abstractmethod
+    def set_server(self):
+        """Инстанцирует сервер."""
+
+    @abstractmethod
+    def start(self):
+        """Запускает инстанс приложения."""

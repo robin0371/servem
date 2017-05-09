@@ -3,15 +3,18 @@ import argparse
 
 from simple_settings import settings
 from tornado.httpclient import AsyncHTTPClient
-from tornado.httpserver import HTTPServer
 from tornado.ioloop import IOLoop
 from tornado.log import enable_pretty_logging, app_log
 from tornado.options import options
-from tornado.web import Application
 
 from emulate.actions import PeriodicStatusSender
 from emulate.client import Device
-from emulate.handlers import StatusHandler
+from emulate.factory import (
+    DefaultInstance,
+    ProductionLikeInstance,
+    ProductionInstance,
+    StagingInstance,
+)
 from emulate.request import StatusRequest
 
 
@@ -28,7 +31,12 @@ arg_parser.add_argument(
 arg_parser.add_argument(
     '--port', '-p', type=int,  help='Порт, направления статуса')
 arg_parser.add_argument(
-    '--servers_ports', '-sp', nargs='*', type=int,  help='Порты серверов')
+    '--staging_port', '-sp', type=int,  help='Порт сервера для разработки')
+arg_parser.add_argument(
+    '--production_like_port', '-plp', type=int,
+    help='Порт сервера для регрессионного тестирования')
+arg_parser.add_argument(
+    '--production_port', '-pp', type=int,  help='Порты сервера для продакшена')
 
 
 def start():
@@ -39,19 +47,19 @@ def start():
     enable_pretty_logging(options)
     app_log.info('Starting the emulation system...')
 
-    application = Application([
-        (r'/status/', StatusHandler)
-    ])
-
     # Запускаем серверы
-    for server_port in args.servers_ports:
-        http_server = HTTPServer(application)
-        http_server.listen(server_port)
+    staging = StagingInstance(port=args.staging_port)
+    staging.start()
 
-    # Запускаем сервер по-умолчанию
+    production_like = ProductionLikeInstance(port=args.production_like_port)
+    production_like.start()
+
+    production = ProductionInstance(port=args.production_port)
+    production.start()
+
     host, port = conf['DEFAULT_SERVER'].split(':')
-    default_server = HTTPServer(application)
-    default_server.listen(port, host)
+    default = DefaultInstance(host=host, port=port)
+    default.start()
 
     # Запускаем устройства(клиенты)
     for device_id in args.devices_id:
