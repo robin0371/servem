@@ -2,20 +2,17 @@
 import argparse
 
 from simple_settings import settings
-from tornado.httpclient import AsyncHTTPClient
 from tornado.ioloop import IOLoop
 from tornado.log import enable_pretty_logging, app_log
 from tornado.options import options
 
-from emulate.actions import PeriodicStatusSender
-from emulate.client import Device
 from emulate.factory import (
     DefaultInstance,
     ProductionLikeInstance,
     ProductionInstance,
     StagingInstance,
+    TerminalFactory
 )
-from emulate.request import StatusRequest
 
 
 arg_parser = argparse.ArgumentParser(
@@ -63,9 +60,7 @@ def start():
 
     # Запускаем устройства(клиенты)
     for device_id in args.devices_id:
-        status_sender = PeriodicStatusSender(
-            AsyncHTTPClient(), StatusRequest, args.host, args.port)
-        device = Device(device_id, status_sender)
+        device = TerminalFactory(device_id, args.host, args.port).create()
         device.start()
 
     IOLoop.instance().start()

@@ -72,3 +72,28 @@ class AbstractAppInstanceFactory(object):
     @abstractmethod
     def start(self):
         """Запускает инстанс приложения."""
+
+
+class AbstractDeviceFactory(object):
+    """Абстрактная фабрика инстансов устройств."""
+
+    __metaclass__ = ABCMeta
+
+    @property
+    @abstractmethod
+    def client_cls(self):
+        """Клиент отправки статуса."""
+
+    @property
+    @abstractmethod
+    def sender_cls(self):
+        """Отправитель статуса."""
+
+    @property
+    @abstractmethod
+    def request_cls(self):
+        """Запрос статуса."""
+
+    @abstractmethod
+    def create(self):
+        """Создает устройство."""

@@ -1,13 +1,11 @@
 """Модуль запуска proxy-сервера маршрутизации запросов системы."""
 import argparse
 
-from tornado.httpserver import HTTPServer
 from tornado.ioloop import IOLoop
 from tornado.log import app_log, enable_pretty_logging
 from tornado.options import options
-from tornado.web import Application
 
-from emulate.handlers import ProxyStatusHandler
+from emulate.factory import ProxyInstance
 
 
 arg_parser = argparse.ArgumentParser(
@@ -28,12 +26,8 @@ def start():
     enable_pretty_logging(options)
     app_log.info('Starting proxy...')
 
-    application = Application([
-        (r'/status/', ProxyStatusHandler)
-    ])
-
-    proxy_server = HTTPServer(application, xheaders=True)
-    proxy_server.listen(args.port, args.host)
+    proxy_instance = ProxyInstance(args.host, args.port)
+    proxy_instance.start()
 
     IOLoop.instance().start()
 
