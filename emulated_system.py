@@ -1,5 +1,7 @@
+"""Модуль запуска эмуляции программно-аппаратной системы."""
 import argparse
 
+from simple_settings import settings
 from tornado.httpclient import AsyncHTTPClient
 from tornado.httpserver import HTTPServer
 from tornado.ioloop import IOLoop
@@ -32,6 +34,7 @@ arg_parser.add_argument(
 def start():
     """Запускает эмулятор программно-аппаратной системы."""
     args = arg_parser.parse_args()
+    conf = settings.as_dict()
 
     enable_pretty_logging(options)
     app_log.info('Starting the emulation system...')
@@ -44,6 +47,11 @@ def start():
     for server_port in args.servers_ports:
         http_server = HTTPServer(application)
         http_server.listen(server_port)
+
+    # Запускаем сервер по-умолчанию
+    ds_conf = conf['DEFAULT_SERVER']
+    default_server = HTTPServer(application)
+    default_server.listen(ds_conf['PORT'], ds_conf['HOST'])
 
     # Запускаем устройства(клиенты)
     for device_id in args.devices_id:

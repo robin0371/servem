@@ -50,8 +50,10 @@ class ProxyStatusHandler(RequestHandler):
         device_id = json_decode(self.request.body)['device_id']
 
         mapper = RedirectMapper(conf['MAP'])
-        host, port = mapper.get_redirect_address(
-            device_id, tuple(conf['DEFAULT_SERVER'].values()))
+
+        ds = conf['DEFAULT_SERVER']
+        default = ds['HOST'], ds['PORT']
+        host, port = mapper.get_redirect_address(device_id, default)
 
         redirect_url = 'http://{host}:{port}{uri}'.format(
             host=host, port=port, uri=self.request.uri)

@@ -1,3 +1,4 @@
+"""Модуль запуска proxy-сервера маршрутизации запросов системы."""
 import argparse
 
 from tornado.httpserver import HTTPServer
