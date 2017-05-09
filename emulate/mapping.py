@@ -22,9 +22,10 @@ class RedirectMapper(object):
 
         :rtype tuple
         """
-        for host, port_map in self.schema.items():
-            for port, terminals_list in port_map.items():
-                if device_id in terminals_list:
-                    return host, port
+        device_number = device_id.split('_')[1]
+        for ids, hostport in self.schema.items():
+            begin, end = ids.split('-')
+            if int(device_number) in range(int(begin), int(end)):
+                return tuple(hostport.split(':'))
 
         return default

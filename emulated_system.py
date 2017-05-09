@@ -49,9 +49,9 @@ def start():
         http_server.listen(server_port)
 
     # Запускаем сервер по-умолчанию
-    ds_conf = conf['DEFAULT_SERVER']
+    host, port = conf['DEFAULT_SERVER'].split(':')
     default_server = HTTPServer(application)
-    default_server.listen(ds_conf['PORT'], ds_conf['HOST'])
+    default_server.listen(port, host)
 
     # Запускаем устройства(клиенты)
     for device_id in args.devices_id:
