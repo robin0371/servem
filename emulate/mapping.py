@@ -1,7 +1,7 @@
 
 
-class RedirectMapper(object):
-    """Маппер перенаправлений запросов."""
+class RedirectResolver(object):
+    """Объект для определения перенаправлений запросов."""
 
     def __init__(self, schema):
         """Инициализация маппинга перенаправлений запросов.
@@ -23,9 +23,10 @@ class RedirectMapper(object):
         :rtype tuple
         """
         device_number = device_id.split('_')[1]
-        for ids, hostport in self.schema.items():
-            begin, end = ids.split('-')
-            if int(device_number) in range(int(begin), int(end)):
-                return tuple(hostport.split(':'))
+        for host, port_map in self.schema.items():
+            for port, ids_range in port_map.items():
+                begin, end = ids_range.split('-')
+                if int(device_number) in range(int(begin), int(end)):
+                    return host, port
 
         return default

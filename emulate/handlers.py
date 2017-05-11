@@ -6,7 +6,7 @@ from tornado.escape import json_decode
 from tornado.log import app_log
 from tornado.web import RequestHandler
 
-from emulate.mapping import RedirectMapper
+from emulate.mapping import RedirectResolver
 from emulate.validate import validate_status_request
 
 
@@ -49,7 +49,7 @@ class ProxyStatusHandler(RequestHandler):
         conf = settings.as_dict()
         device_id = json_decode(self.request.body)['device_id']
 
-        mapper = RedirectMapper(conf['MAP'])
+        mapper = RedirectResolver(conf['MAP'])
 
         default = tuple(conf['DEFAULT_SERVER'].split(':'))
         host, port = mapper.get_redirect_address(device_id, default)
