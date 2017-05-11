@@ -3,17 +3,14 @@ from tornado.httpserver import HTTPServer
 from tornado.web import Application
 
 from emulate.actions import StatusSender, PeriodicStatusSender
-from emulate.base import AbstractAppInstanceFactory, AbstractDeviceFactory
+from emulate.base import AbstractAppInstance, AbstractDeviceFactory
 from emulate.client import Device
 from emulate.handlers import StatusHandler, ProxyStatusHandler
 from emulate.request import StatusRequest
 
 
-class AppInstanceFactory(AbstractAppInstanceFactory):
-    """Фабрика инстансов приложений.
-
-    Базовый класс для инициализации приложения принимающего статус устройств.
-    """
+class AppInstance(AbstractAppInstance):
+    """Базовый класс инстансов приложений."""
 
     def __init__(self, host=None, port=None):
         """Инициализация инстанса приложения.
@@ -38,36 +35,41 @@ class AppInstanceFactory(AbstractAppInstanceFactory):
         self.server = HTTPServer(self.app)
 
     def start(self):
+        """Запуск инстанса."""
         self.set_app()
         self.set_server()
         self.server.listen(self.port, self.host)
 
+    def stop(self):
+        """Остановка инстанса."""
+        pass
 
-class StagingInstance(AppInstanceFactory):
+
+class StagingInstance(AppInstance):
     """Инстанс приложения для разработки."""
 
     name = 'staging'
 
 
-class ProductionLikeInstance(AppInstanceFactory):
+class ProductionLikeInstance(AppInstance):
     """Инстанс приложения для регрессионного тестирования."""
 
     name = 'production-like'
 
 
-class ProductionInstance(AppInstanceFactory):
+class ProductionInstance(AppInstance):
     """Инстанс приложения для продакшена."""
 
     name = 'production'
 
 
-class DefaultInstance(AppInstanceFactory):
+class DefaultInstance(AppInstance):
     """Инстанс приложения для перенаправления по-умолчанию."""
 
     name = 'default'
 
 
-class ProxyInstance(AppInstanceFactory):
+class ProxyInstance(AppInstance):
     """Инстанс приложения для проксирования."""
 
     name = 'proxy'
