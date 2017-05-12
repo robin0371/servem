@@ -7,11 +7,10 @@ from tornado.log import app_log, enable_pretty_logging
 from tornado.options import options
 from tornado.web import Application
 
-from emulate.base import StartInterface, StopInterface
 from emulate.server.handlers import StatusHandler
 
 
-class AppServer(StartInterface):
+class AppServer(object):
     """Сервер приложения."""
 
     def __init__(self, host=None, port=None):
@@ -43,7 +42,7 @@ class AppServer(StartInterface):
         self.server.listen(self.port, self.host)
 
 
-class ServersEmulation(StartInterface, StopInterface):
+class ServersEmulation(object):
     """Система эмуляции серверов приложений."""
 
     def __init__(self, staging, production_like, production):

@@ -5,13 +5,12 @@ from tornado.ioloop import IOLoop
 from tornado.log import enable_pretty_logging, app_log
 from tornado.options import options
 
-from emulate.base import StartInterface, StopInterface
 from emulate.client.client import Device
 from emulate.client.request import StatusRequest
 from emulate.client.sender import PeriodicStatusSender
 
 
-class DevicesEmulation(StartInterface, StopInterface):
+class DevicesEmulation(object):
     """Система эмуляции устройств."""
 
     def __init__(self, devices_ids, host, port):

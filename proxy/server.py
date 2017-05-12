@@ -6,11 +6,10 @@ from tornado.log import enable_pretty_logging, app_log
 from tornado.options import options
 from tornado.web import Application
 
-from emulate.base import StartInterface, StopInterface
 from proxy.handlers import ProxyStatusHandler
 
 
-class ProxyServer(StartInterface, StopInterface):
+class ProxyServer(object):
     """Proxy-сервер."""
 
     def __init__(self, host=None, port=None):

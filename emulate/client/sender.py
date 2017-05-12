@@ -1,6 +1,6 @@
 from tornado.ioloop import PeriodicCallback
 
-from emulate.base import AbstractSender
+from emulate.client.base import AbstractSender
 
 
 class StatusSender(AbstractSender):
