@@ -47,7 +47,8 @@ class ProxyStatusHandler(RequestHandler):
         validate_status_request(self.body)
 
         conf = settings.as_dict()
-        device_id = json_decode(self.request.body)['device_id']
+        body = json_decode(self.request.body)
+        device_id = body['device_id']
 
         mapper = RedirectResolver(conf['MAP'])
 
@@ -58,3 +59,7 @@ class ProxyStatusHandler(RequestHandler):
             host=host, port=port, uri=self.request.uri)
 
         self.redirect(url=redirect_url, permanent=True)
+
+        app_log.info(
+            'Request {} from device {} redirects to {}'
+            ''.format(body['request_id'], device_id, redirect_url))
