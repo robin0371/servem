@@ -1,5 +1,4 @@
 from tornado.ioloop import PeriodicCallback
-from tornado.log import app_log
 
 from emulate.base import AbstractSender
 
@@ -7,7 +6,7 @@ from emulate.base import AbstractSender
 class StatusSender(AbstractSender):
     """Объект отправки статуса устройства."""
 
-    def __init__(self, client, request_cls, ip_address, port):
+    def __init__(self, client, request_cls, ip_address, port, log):
         """Инициализация отправки статуса устройства.
 
         :param client: HTTP-клиент
@@ -21,16 +20,21 @@ class StatusSender(AbstractSender):
 
         :param port: Порт
         :type port: int
+
+        :param log: Логгер
+        :type log: logging.Logger
         """
         self.client = client
         self.request_cls = request_cls
         self.ip_address = ip_address
         self.port = port
+        self.log = log
 
     def send(self):
         """Отправляет запрос."""
         request = self.get_request()
-        app_log.info('Send request (body = {})'.format(request.body))
+        self.log.info(
+            'Send request (body = {}) to {}'.format(request.body, request.url))
         self.client.fetch(request)
 
     def get_url(self):
