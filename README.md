@@ -91,6 +91,6 @@ $ python client.py --settings=config.yaml -d terminal_0 terminal_5 terminal_25 -
 
             {
                 "device_id": "<идентификатор устройства, string>",
-                “request_id": "<идентификатор запроса, string>",
+                "request_id": "<идентификатор запроса, string>",
                 "result": "OK"
             }
