@@ -13,7 +13,7 @@ class ProxyServer(object):
     """Proxy-сервер."""
 
     def __init__(self, host=None, port=None):
-        """Инициализация инстанса приложения.
+        """Инициализация proxy-сервера.
 
         :param host: Хост
         :type host: str
@@ -32,13 +32,13 @@ class ProxyServer(object):
         ])
 
     def set_server(self):
-        """Инициализирует сервер."""
+        """Инициализирует proxy-сервер."""
         self.server = HTTPServer(self.app, xheaders=True)
 
     def start(self):
         """Запуск proxy-сервера."""
         enable_pretty_logging(options)
-        app_log.info('Starting proxy...')
+        app_log.info('Starting proxy-server...')
 
         self.set_app()
         self.set_server()
@@ -55,4 +55,4 @@ class ProxyServer(object):
     def stop(self):
         """Остановка proxy-сервера."""
         self.io_loop.stop()
-        app_log.info('Proxy is stopped.')
+        app_log.info('Proxy-server is stopped.')
