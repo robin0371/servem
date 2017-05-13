@@ -6,7 +6,7 @@ from emulate.client.base import AbstractSender
 class StatusSender(AbstractSender):
     """Объект отправки статуса устройства."""
 
-    def __init__(self, client, request_cls, ip_address, port, log):
+    def __init__(self, client, request_cls, host, port, log):
         """Инициализация отправки статуса устройства.
 
         :param client: HTTP-клиент
@@ -15,10 +15,10 @@ class StatusSender(AbstractSender):
         :param request_cls: Класс объекта запроса
         :type request_cls: Type of emulate.client.request.StatusRequest
 
-        :param ip_address: IP-адрес
-        :type ip_address: str
+        :param host: Хост, на который отправится запрос
+        :type host: str
 
-        :param port: Порт
+        :param port: Порт, на который отправится запрос
         :type port: int
 
         :param log: Логгер
@@ -26,7 +26,7 @@ class StatusSender(AbstractSender):
         """
         self.client = client
         self.request_cls = request_cls
-        self.ip_address = ip_address
+        self.host = host
         self.port = port
         self.log = log
 
@@ -39,8 +39,8 @@ class StatusSender(AbstractSender):
 
     def get_url(self):
         """Возвращает url, на который отправится запрос."""
-        return 'http://{ip_address}:{port}/status/'.format(
-            ip_address=self.ip_address, port=self.port)
+        return 'http://{host}:{port}/status/'.format(
+            host=self.host, port=self.port)
 
     def get_request(self):
         """Возвращает объект запроса."""

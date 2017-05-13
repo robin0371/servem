@@ -16,8 +16,8 @@ def validate_status_request(body):
     :param body: Словарь тела запроса
     :type body: dict
 
-    :returns Результат валидации и причина, если значение не валидно
-    :return Кортеж (bool, str)
+    :return Результат валидации и причина, если значение не валидно
+    :rtype tuple(bool, str)
     """
     reason = ''
     is_validate = Validator().validate(body, STATUS_SCHEMA)
