@@ -1,13 +1,12 @@
 from cerberus import Validator
-from tornado import web
 
 
 # Схема валидации тела запроса
 STATUS_SCHEMA = {
-    'device_id': {'type': 'string'},
-    'request_id': {'type': 'string', 'min': 16, 'max': 16},
-    'status': {'type': 'string'},
-    'data': {'type': 'dict'},
+    'device_id': {'type': 'string', 'required': True},
+    'request_id': {'type': 'string', 'min': 16, 'max': 16, 'required': True},
+    'status': {'type': 'string', 'required': True},
+    'data': {'type': 'dict', 'required': True},
 }
 
 
@@ -17,11 +16,14 @@ def validate_status_request(body):
     :param body: Словарь тела запроса
     :type body: dict
 
-    :raise tornado.web.HTTPError
+    :returns Результат валидации и причина, если значение не валидно
+    :return Кортеж (bool, str)
     """
+    reason = ''
     is_validate = Validator().validate(body, STATUS_SCHEMA)
 
     if not is_validate:
-        raise web.HTTPError(
-            400, 'Request body ({}) is not validated to schema ({}).'
-                 ''.format(body, STATUS_SCHEMA))
+        reason = ('Request body ({}) is not validated to schema ({}).'
+                  ''.format(body, STATUS_SCHEMA))
+
+    return is_validate, reason

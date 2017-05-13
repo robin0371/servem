@@ -4,12 +4,11 @@ from simple_settings import settings
 from tornado import web
 from tornado.escape import json_decode
 from tornado.log import app_log
-from tornado.web import RequestHandler
 
 from proxy.redirect import RedirectResolver
 
 
-class ProxyStatusHandler(RequestHandler):
+class ProxyStatusHandler(web.RequestHandler):
     """Обработчик получения статуса устройства proxy-сервером."""
 
     def prepare(self):
