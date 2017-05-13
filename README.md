@@ -70,8 +70,8 @@ $ python client.py --settings=config.yaml -d terminal_0 terminal_5 terminal_25 -
         POST /status/
 
             {
-                "device_id": “<идентификатор устройства, string>”,
-                “request_id”: “<идентификатор запроса, string>”,
+                "device_id": "<идентификатор устройства, string>",
+                "request_id": "<идентификатор запроса, string>",
                 "status": "OK",
                 "data": {
                     <произвольный объект с данными>
@@ -90,7 +90,7 @@ $ python client.py --settings=config.yaml -d terminal_0 terminal_5 terminal_25 -
     - Отвечает на все корректные по структуре запросы следующим json:
 
             {
-                "device_id": “<идентификатор устройства, string>”,
-                “request_id”: “<идентификатор запроса, string>”,
+                "device_id": "<идентификатор устройства, string>",
+                “request_id": "<идентификатор запроса, string>",
                 "result": "OK"
             }
