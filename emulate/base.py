@@ -2,7 +2,7 @@ from abc import ABCMeta, abstractmethod
 
 
 class StartInterface(object):
-    """Интерфейс старта."""
+    """Интерфейс запуска."""
 
     __metaclass__ = ABCMeta
 
@@ -12,10 +12,10 @@ class StartInterface(object):
 
 
 class StopInterface(object):
-    """Интерфейс остановки."""
+    """Интерфейс завершения."""
 
     __metaclass__ = ABCMeta
 
     @abstractmethod
     def stop(self):
-        """Остановка."""
+        """Завершение."""

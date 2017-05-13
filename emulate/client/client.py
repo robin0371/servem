@@ -11,7 +11,7 @@ class Device(AbstractDevice):
         :type device_id: str
 
         :param status_sender: Отправитель статуса
-        :type status_sender: emulate.actions.StatusSender
+        :type status_sender: emulate.client.sender.StatusSender
 
         :param log: Логгер
         :type log: logging.Logger

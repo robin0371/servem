@@ -1,4 +1,4 @@
-"""Модуль запуска proxy-сервера маршрутизации запросов системы."""
+"""Модуль запуска proxy-сервера маршрутизации."""
 import argparse
 
 from proxy import ProxyServer
@@ -16,7 +16,7 @@ arg_parser.add_argument(
 
 
 def start():
-    """Запускает proxy-сервер для маршрутизации запросов."""
+    """Запускает proxy-сервер маршрутизации."""
     args = arg_parser.parse_args()
 
     proxy_instance = ProxyServer(args.host, args.port)

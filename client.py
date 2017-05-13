@@ -1,4 +1,4 @@
-"""Модуль запуска эмуляции устройств системы."""
+"""Модуль запуска эмуляции устройств."""
 import argparse
 
 from emulate import DevicesEmulation
@@ -18,7 +18,7 @@ arg_parser.add_argument(
 
 
 def start():
-    """Запускает устройства системы."""
+    """Запускает эмуляцию устройств."""
     args = arg_parser.parse_args()
 
     devices_emulation = DevicesEmulation(args.devices_id, args.host, args.port)

@@ -17,7 +17,7 @@ class DevicesEmulation(object):
         """Инициализация системы эмуляции устройств.
 
         :param devices_ids: ID устройств
-        :type staging: list of str
+        :type devices_ids: list of str
 
         :param host: Хост сервера, на который устройства передают статус
         :type host: str

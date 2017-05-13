@@ -13,7 +13,7 @@ class StatusSender(AbstractSender):
         :type client: tornado.httpclient.AsyncHTTPClient
 
         :param request_cls: Класс объекта запроса
-        :type request_cls: Type of emulate.request.StatusRequest
+        :type request_cls: Type of emulate.client.request.StatusRequest
 
         :param ip_address: IP-адрес
         :type ip_address: str

@@ -1,11 +1,11 @@
-"""Модуль запуска серверов системы."""
+"""Модуль запуска эмуляции серверов приложений."""
 import argparse
 
 from emulate import ServersEmulation
 
 
 arg_parser = argparse.ArgumentParser(
-    prog='servem', description='Конфигурация запуска серверов системы')
+    prog='servem', description='Конфигурация запуска эмуляции серверов')
 
 arg_parser.add_argument(
     '--settings', type=open,  help='Путь к файлу настройки')
@@ -15,7 +15,7 @@ arg_parser.add_argument(
     '--production_like_port', '-plp', type=int,
     help='Порт сервера для регрессионного тестирования')
 arg_parser.add_argument(
-    '--production_port', '-pp', type=int,  help='Порт продакшен-сервера')
+    '--production_port', '-pp', type=int,  help='Порт production-сервера')
 
 
 def start():
