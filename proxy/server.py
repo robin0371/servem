@@ -23,6 +23,7 @@ class ProxyServer(object):
         """
         self.host = host
         self.port = port
+        self.io_loop = IOLoop.instance()
 
     def set_app(self):
         """Инициализирует приложение."""
@@ -42,8 +43,6 @@ class ProxyServer(object):
         self.set_app()
         self.set_server()
         self.server.listen(self.port, self.host)
-
-        self.io_loop = IOLoop.instance()
 
         # Сигнал на остановку эмуляции по нажатию Ctrl-C
         signal.signal(

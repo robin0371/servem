@@ -60,6 +60,7 @@ class ServersEmulation(object):
         self.staging_port = staging
         self.production_like_port = production_like
         self.production_port = production
+        self.io_loop = IOLoop.instance()
 
     def start(self):
         """Запуск серверов приложений."""
@@ -81,8 +82,6 @@ class ServersEmulation(object):
         host, port = conf['DEFAULT_SERVER'].split(':')
         default = AppServer(host=host, port=port)
         default.start()
-
-        self.io_loop = IOLoop.instance()
 
         # Сигнал на остановку эмуляции по нажатию Ctrl-C
         signal.signal(

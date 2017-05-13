@@ -28,6 +28,7 @@ class DevicesEmulation(object):
         self.devices_ids = devices_ids
         self.host = host
         self.port = port
+        self.io_loop = IOLoop.instance()
 
     def start(self):
         """Запуск эмуляции устройств."""
@@ -41,8 +42,6 @@ class DevicesEmulation(object):
             )
             device = Device(device_id, sender, app_log)
             device.start()
-
-        self.io_loop = IOLoop.instance()
 
         # Сигнал на остановку эмуляции по нажатию Ctrl-C
         signal.signal(
