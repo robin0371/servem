@@ -1,7 +1,7 @@
 """Модуль запуска эмуляции серверов приложений."""
 import argparse
 
-from emulate import ServersEmulation
+from server.emulator import ServersEmulation
 
 
 arg_parser = argparse.ArgumentParser(

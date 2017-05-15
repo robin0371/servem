@@ -6,7 +6,8 @@ from tornado.escape import json_decode
 from tornado.httpclient import AsyncHTTPClient, HTTPRequest
 from tornado.log import app_log
 
-from proxy.redirect import RedirectResolver
+from server.proxy.redirect import RedirectResolver
+from server.validate import validate_status_request
 
 
 class ProxyStatusHandler(web.RequestHandler):
@@ -20,6 +21,15 @@ class ProxyStatusHandler(web.RequestHandler):
 
     @gen.coroutine
     def post(self):
+        is_validate, reason = validate_status_request(self.body)
+
+        if not is_validate:
+            self.write({
+                'result': 'Validation error',
+                'reason': reason
+            })
+            self.finish()
+
         conf = settings.as_dict()
         device_id = self.body['device_id']
 
@@ -47,8 +57,7 @@ class ProxyStatusHandler(web.RequestHandler):
         response = yield AsyncHTTPClient().fetch(redirect_request)
 
         # Отправляем ответ клиенту
-        self.set_header('Content-Type', 'application/json')
-        self.write(response.body)
+        self.write(json_decode(response.body))
 
         app_log.info(
             'Send response (body = {}) after redirect from {}'

@@ -6,7 +6,7 @@ from tornado.log import enable_pretty_logging, app_log
 from tornado.options import options
 from tornado.web import Application
 
-from proxy.handlers import ProxyStatusHandler
+from server.proxy.handlers import ProxyStatusHandler
 
 
 class ProxyServer(object):

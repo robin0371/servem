@@ -1,6 +1,24 @@
 from abc import ABCMeta, abstractmethod
 
-from emulate.base import StartInterface, StopInterface
+
+class StartInterface(object):
+    """Интерфейс запуска."""
+
+    __metaclass__ = ABCMeta
+
+    @abstractmethod
+    def start(self):
+        """Запуск."""
+
+
+class StopInterface(object):
+    """Интерфейс завершения."""
+
+    __metaclass__ = ABCMeta
+
+    @abstractmethod
+    def stop(self):
+        """Завершение."""
 
 
 class AbstractDevice(StartInterface, StopInterface):

@@ -1,6 +1,7 @@
+from tornado import gen
 from tornado.ioloop import PeriodicCallback
 
-from emulate.client.base import AbstractSender
+from client.base import AbstractSender
 
 
 class StatusSender(AbstractSender):
@@ -30,12 +31,18 @@ class StatusSender(AbstractSender):
         self.port = port
         self.log = log
 
+    @gen.coroutine
     def send(self):
         """Отправляет запрос."""
         request = self.get_request()
         self.log.info(
             'Send request (body = {}) to {}'.format(request.body, request.url))
-        self.client.fetch(request)
+
+        response = yield self.client.fetch(request)
+
+        self.log.info(
+            'Received response (body = {}) from {}'.format(
+                response.body, response.effective_url))
 
     def get_url(self):
         """Возвращает url, на который отправится запрос."""

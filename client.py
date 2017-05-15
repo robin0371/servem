@@ -1,7 +1,7 @@
 """Модуль запуска эмуляции устройств."""
 import argparse
 
-from emulate import DevicesEmulation
+from client.emulator import DevicesEmulation
 
 
 arg_parser = argparse.ArgumentParser(

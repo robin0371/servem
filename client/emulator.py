@@ -5,9 +5,9 @@ from tornado.ioloop import IOLoop
 from tornado.log import enable_pretty_logging, app_log
 from tornado.options import options
 
-from emulate.client.client import Device
-from emulate.client.request import StatusRequest
-from emulate.client.sender import PeriodicStatusSender
+from client.client import Device
+from client.request import StatusRequest
+from client.sender import PeriodicStatusSender
 
 
 class DevicesEmulation(object):

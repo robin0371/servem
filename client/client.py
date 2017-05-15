@@ -1,4 +1,4 @@
-from emulate.client.base import AbstractDevice
+from client.base import AbstractDevice
 
 
 class Device(AbstractDevice):

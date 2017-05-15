@@ -7,7 +7,7 @@ from tornado.log import app_log, enable_pretty_logging
 from tornado.options import options
 from tornado.web import Application
 
-from emulate.server.handlers import StatusHandler
+from server.handlers import StatusHandler
 
 
 class AppServer(object):

@@ -3,7 +3,8 @@ from cerberus import Validator
 
 # Схема валидации тела запроса
 STATUS_SCHEMA = {
-    'device_id': {'type': 'string', 'required': True},
+    'device_id': {
+        'type': 'string', 'regex': '^[a-z]{1,10}[_]{1}\d+$', 'required': True},
     'request_id': {'type': 'string', 'min': 16, 'max': 16, 'required': True},
     'status': {'type': 'string', 'required': True},
     'data': {'type': 'dict', 'required': True},

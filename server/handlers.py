@@ -5,7 +5,7 @@ from tornado import gen, web
 from tornado.escape import json_decode
 from tornado.log import app_log
 
-from emulate.server.validate import validate_status_request
+from server.validate import validate_status_request
 
 
 class StatusHandler(web.RequestHandler):
@@ -22,17 +22,19 @@ class StatusHandler(web.RequestHandler):
         is_validate, reason = validate_status_request(self.body)
 
         if not is_validate:
-            raise web.HTTPError(400, reason)
+            self.write({
+                'result': 'Validation error',
+                'reason': reason
+            })
+            self.finish()
 
         yield gen.sleep(settings.DELAY_TIME)
 
-        self.set_header('Content-Type', 'application/json')
-
-        self.write(json.dumps({
+        self.write({
             'device_id': self.body['device_id'],
             'request_id': self.body['request_id'],
             'result': 'OK'
-        }))
+        })
 
         app_log.info(
             'Response to request {} ({}) from {}'.format(

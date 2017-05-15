@@ -1,7 +1,7 @@
 """Модуль запуска proxy-сервера маршрутизации."""
 import argparse
 
-from proxy import ProxyServer
+from server.proxy.server import ProxyServer
 
 
 arg_parser = argparse.ArgumentParser(
