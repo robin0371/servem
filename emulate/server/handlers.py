@@ -26,6 +26,8 @@ class StatusHandler(web.RequestHandler):
 
         yield gen.sleep(settings.DELAY_TIME)
 
+        self.set_header('Content-Type', 'application/json')
+
         self.write(json.dumps({
             'device_id': self.body['device_id'],
             'request_id': self.body['request_id'],

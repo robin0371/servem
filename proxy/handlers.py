@@ -1,8 +1,9 @@
 import json
 
 from simple_settings import settings
-from tornado import web
+from tornado import web, gen
 from tornado.escape import json_decode
+from tornado.httpclient import AsyncHTTPClient, HTTPRequest
 from tornado.log import app_log
 
 from proxy.redirect import RedirectResolver
@@ -17,6 +18,7 @@ class ProxyStatusHandler(web.RequestHandler):
         except (TypeError, json.JSONDecodeError) as error:
             raise web.HTTPError(400, error)
 
+    @gen.coroutine
     def post(self):
         conf = settings.as_dict()
         device_id = self.body['device_id']
@@ -29,8 +31,25 @@ class ProxyStatusHandler(web.RequestHandler):
         redirect_url = 'http://{host}:{port}{uri}'.format(
             host=host, port=port, uri=self.request.uri)
 
-        self.redirect(url=redirect_url, permanent=True)
+        # Создаем новый запрос, с подменой URL
+        redirect_request = HTTPRequest(
+            url=redirect_url,
+            method='POST',
+            headers=self.request.headers,
+            body=self.request.body
+        )
 
         app_log.info(
             'Redirect request {} from device {} to {}'
             ''.format(self.body['request_id'], device_id, redirect_url))
+
+        # Перенаправляем запрос и ожидаем ответа от сервера
+        response = yield AsyncHTTPClient().fetch(redirect_request)
+
+        # Отправляем ответ клиенту
+        self.set_header('Content-Type', 'application/json')
+        self.write(response.body)
+
+        app_log.info(
+            'Send response (body = {}) after redirect from {}'
+            ''.format(response.body, redirect_url))
