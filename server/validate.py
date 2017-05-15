@@ -17,8 +17,8 @@ def validate_status_request(body):
     :param body: Словарь тела запроса
     :type body: dict
 
-    :return Результат валидации и причина, если значение не валидно
-    :rtype tuple(bool, str)
+    :return Результат валидации и словарь ошибок, если значение не валидно
+    :rtype tuple(bool, dict)
     """
     validator = Validator()
     is_validate = validator.validate(body, STATUS_SCHEMA)
