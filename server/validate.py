@@ -20,11 +20,7 @@ def validate_status_request(body):
     :return Результат валидации и причина, если значение не валидно
     :rtype tuple(bool, str)
     """
-    reason = ''
-    is_validate = Validator().validate(body, STATUS_SCHEMA)
+    validator = Validator()
+    is_validate = validator.validate(body, STATUS_SCHEMA)
 
-    if not is_validate:
-        reason = ('Request body ({}) is not validated to schema ({}).'
-                  ''.format(body, STATUS_SCHEMA))
-
-    return is_validate, reason
+    return is_validate, validator.errors

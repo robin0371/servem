@@ -26,9 +26,13 @@ class ProxyStatusHandler(web.RequestHandler):
         if not is_validate:
             self.write({
                 'result': 'Validation error',
-                'reason': reason
+                'message': reason
             })
-            self.finish()
+            app_log.info(
+                'Request {} validation error: {}'.format(
+                    self.body['request_id'], reason))
+
+            raise gen.Return()
 
         conf = settings.as_dict()
         device_id = self.body['device_id']

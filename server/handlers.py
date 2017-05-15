@@ -24,9 +24,13 @@ class StatusHandler(web.RequestHandler):
         if not is_validate:
             self.write({
                 'result': 'Validation error',
-                'reason': reason
+                'message': reason
             })
-            self.finish()
+            app_log.info(
+                'Request {} validation error: {}'.format(
+                    self.body['request_id'], reason))
+
+            raise gen.Return()
 
         yield gen.sleep(settings.DELAY_TIME)
 
