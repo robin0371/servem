@@ -23,10 +23,14 @@ class RedirectResolver(object):
         :rtype tuple
         """
         device_number = device_id.split('_')[1]
-        for host, port_map in self.schema.items():
-            for port, ids_range in port_map.items():
-                begin, end = ids_range.split('-')
-                if int(device_number) in range(int(begin), int(end)):
-                    return host, port
+
+        for mapping in self.schema:
+            host = mapping['host']
+            port = mapping['port']
+            begin, end = mapping['devices'].split('-')
+
+            if int(device_number) in range(int(begin), int(end)):
+                return host, port
 
         return default
+

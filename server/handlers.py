@@ -1,6 +1,5 @@
 import json
 
-from simple_settings import settings
 from tornado import gen, web
 from tornado.escape import json_decode
 from tornado.log import app_log
@@ -15,6 +14,7 @@ class StatusHandler(web.RequestHandler):
         try:
             self.body = json_decode(self.request.body)
         except (TypeError, json.JSONDecodeError) as error:
+            app_log.error("Error %s" % error)
             raise web.HTTPError(400, error)
 
     @gen.coroutine
@@ -32,7 +32,7 @@ class StatusHandler(web.RequestHandler):
 
             raise gen.Return()
 
-        yield gen.sleep(settings.DELAY_TIME)
+        yield gen.sleep(2)
 
         self.write({
             'device_id': self.body['device_id'],

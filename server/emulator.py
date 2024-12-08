@@ -1,6 +1,6 @@
 import signal
 
-from simple_settings import settings
+from config import config_from_toml
 from tornado.httpserver import HTTPServer
 from tornado.ioloop import IOLoop
 from tornado.log import app_log, enable_pretty_logging
@@ -13,7 +13,7 @@ from server.handlers import StatusHandler
 class AppServer(object):
     """Сервер приложения."""
 
-    def __init__(self, host=None, port=None):
+    def __init__(self, host="0.0.0.0", port=None):
         """Инициализация сервера приложения.
 
         :param host: Хост
@@ -64,7 +64,7 @@ class ServersEmulation(object):
 
     def start(self):
         """Запуск серверов приложений."""
-        conf = settings.as_dict()
+        CFG = config_from_toml("config.toml", read_from_file=True)
 
         enable_pretty_logging(options)
         app_log.info('Starting the servers emulation...')
@@ -79,8 +79,8 @@ class ServersEmulation(object):
         production = AppServer(port=self.production_port)
         production.start()
 
-        host, port = conf['DEFAULT_SERVER'].split(':')
-        default = AppServer(host=host, port=port)
+        host, port = CFG.COMMON.DEFAULT_SERVER.split(':')
+        default = AppServer(host="0.0.0.0", port=port)
         default.start()
 
         # Сигнал на остановку эмуляции по нажатию Ctrl-C
@@ -95,3 +95,4 @@ class ServersEmulation(object):
         """Остановка серверов приложений."""
         self.io_loop.stop()
         app_log.info('The servers emulation is stopped.')
+

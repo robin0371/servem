@@ -1,0 +1,37 @@
+services:
+  proxy:
+    build: .
+    command: python proxy.py --settings=config.toml --port 7777
+    ports:
+      - "7777:7777"
+    networks:
+      - back_net
+      - front_net
+    restart: always
+
+  servers:
+    build: .
+    command: python server.py --settings=config.toml -sp 8080 -plp 8090 -pp 9000
+    ports:
+      - "8080:8080"
+      - "8090:8090"
+      - "9000:9000"
+    depends_on:
+      - proxy
+    networks:
+      - back_net
+    restart: always
+
+  devices:
+    build: .
+    command: python client.py --settings=config.toml -d terminal_0 terminal_5 terminal_25 -ht proxy -p 7777
+    depends_on:
+      - servers
+    networks:       
+      - front_net
+    restart: always
+
+networks:
+  back_net:
+  front_net:
+

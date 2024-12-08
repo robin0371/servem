@@ -1,6 +1,6 @@
 import json
 
-from simple_settings import settings
+from config import config_from_toml
 from tornado import web, gen
 from tornado.escape import json_decode
 from tornado.httpclient import AsyncHTTPClient, HTTPRequest
@@ -28,18 +28,19 @@ class ProxyStatusHandler(web.RequestHandler):
                 'result': 'Validation error',
                 'message': reason
             })
-            app_log.info(
+            app_log.error(
                 'Request {} validation error: {}'.format(
                     self.body['request_id'], reason))
 
             raise gen.Return()
 
-        conf = settings.as_dict()
+        CFG = config_from_toml("config.toml", read_from_file=True)
+
         device_id = self.body['device_id']
 
-        resolver = RedirectResolver(conf['MAP'])
+        resolver = RedirectResolver(CFG.PROXY_MAP)
 
-        default = tuple(conf['DEFAULT_SERVER'].split(':'))
+        default = tuple(CFG.COMMON.DEFAULT_SERVER.split(':'))
         host, port = resolver.get_redirect_address(device_id, default)
 
         redirect_url = 'http://{host}:{port}{uri}'.format(

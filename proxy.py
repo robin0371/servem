@@ -8,9 +8,9 @@ arg_parser = argparse.ArgumentParser(
     prog='proxy', description='Конфигурация запуска proxy-сервера')
 
 arg_parser.add_argument(
-    '--settings', type=open,  help='Настройки proxy-сервера')
+    '--settings', type=argparse.FileType('r'), help='Настройки proxy-сервера')
 arg_parser.add_argument(
-    '--host', '-ht', type=str, help='Хост, proxy-сервера')
+    '--host', '-ht', type=str, default="0.0.0.0", help='Хост, proxy-сервера')
 arg_parser.add_argument(
     '--port', '-p', type=int,  help='Порт, proxy-сервера')
 
@@ -25,3 +25,4 @@ def start():
 
 if __name__ == '__main__':
     start()
+
