@@ -25,8 +25,7 @@ class RedirectResolver(object):
         device_number = device_id.split('_')[1]
 
         for mapping in self.schema:
-            host = mapping['host']
-            port = mapping['port']
+            host, port = mapping['host'], mapping['port']
             begin, end = mapping['devices'].split('-')
 
             if int(device_number) in range(int(begin), int(end)):

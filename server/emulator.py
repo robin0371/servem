@@ -79,8 +79,8 @@ class ServersEmulation(object):
         production = AppServer(port=self.production_port)
         production.start()
 
-        host, port = CFG.COMMON.DEFAULT_SERVER.split(':')
-        default = AppServer(host="0.0.0.0", port=port)
+        _, port = CFG.COMMON.DEFAULT_SERVER.split(':')
+        default = AppServer(port=port)
         default.start()
 
         # Сигнал на остановку эмуляции по нажатию Ctrl-C

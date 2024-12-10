@@ -27,7 +27,7 @@ services:
     command: python client.py --settings=config.toml -d terminal_0 terminal_5 terminal_25 -ht proxy -p 7777
     depends_on:
       - servers
-    networks:       
+    networks:
       - front_net
     restart: always
 
